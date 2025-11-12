@@ -1,116 +1,10 @@
-// // app/components/LessonsTable.tsx
-// "use client";
-
-// import { createClient } from "@/utils/supabase/client";
-// import { Lesson } from "@/app/page"; // Import the type we made
-// import { useEffect, useState } from "react";
-// import Link from "next/link";
-
-// type LessonsTableProps = {
-//   initialLessons: Lesson[];
-// };
-
-// export default function LessonsTable({ initialLessons }: LessonsTableProps) {
-//   const [lessons, setLessons] = useState(initialLessons);
-//   const supabase = createClient(); // The browser client
-
-//   useEffect(() => {
-//     // This effect runs once on mount
-//     const channel = supabase
-//       .channel("lessons-feed")
-//       .on(
-//         "postgres_changes",
-//         {
-//           event: "*", // Listen to INSERT, UPDATE, DELETE
-//           schema: "public",
-//           table: "lessons",
-//         },
-//         (payload) => {
-//           console.log("Realtime payload received:", payload);
-
-//           if (payload.eventType === "INSERT") {
-//             // Add the new lesson to the top of the list
-//             setLessons((currentLessons) => [
-//               payload.new as Lesson,
-//               ...currentLessons,
-//             ]);
-//           }
-
-//           if (payload.eventType === "UPDATE") {
-//             // Find and update the lesson in the list
-//             setLessons((currentLessons) =>
-//               currentLessons.map((lesson) =>
-//                 lesson.id === payload.new.id
-//                   ? (payload.new as Lesson)
-//                   : lesson
-//               )
-//             );
-//           }
-//         }
-//       )
-//       .subscribe();
-
-//     // Cleanup function to remove the channel subscription
-//     return () => {
-//       supabase.removeChannel(channel);
-//     };
-//   }, [supabase]); // Re-run if supabase client changes (it won't)
-
-//   if (lessons.length === 0) {
-//     return <p className="text-gray-500">No lessons generated yet.</p>;
-//   }
-
-//   return (
-//     <div className="overflow-x-auto rounded-lg border">
-//       <table className="min-w-full divide-y divide-gray-200">
-//         <thead className="bg-gray-50">
-//           <tr>
-//             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-//               Lesson Outline
-//             </th>
-//             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-//               Status
-//             </th>
-//           </tr>
-//         </thead>
-//         <tbody className="bg-white divide-y divide-gray-200">
-//           {lessons.map((lesson) => (
-//             <tr key={lesson.id} className="hover:bg-gray-50">
-//               <td className="px-6 py-4 whitespace-nowrap">
-//                 <Link
-//                   href={`/lessons/${lesson.id}`}
-//                   className="text-blue-600 hover:underline"
-//                 >
-//                   {lesson.outline}
-//                 </Link>
-//               </td>
-//               <td className="px-6 py-4 whitespace-nowrap">
-//                 <span
-//                   className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-//                     lesson.status === "generated"
-//                       ? "bg-green-100 text-green-800"
-//                       : "bg-yellow-100 text-yellow-800 animate-pulse"
-//                   }`}
-//                 >
-//                   {lesson.status}
-//                 </span>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// }
-
-
 "use client";
 
 import { createClient } from "@/utils/supabase/client";
 import { Lesson } from "@/app/page";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, CheckCircle, Loader2 } from "lucide-react";
 
 type LessonsTableProps = {
   initialLessons: Lesson[];
@@ -152,7 +46,7 @@ export default function LessonsTable({ initialLessons }: LessonsTableProps) {
   if (lessons.length === 0) {
     return (
       <p className="text-gray-500 text-center py-4 italic">
-        No lessons generated yet. ✨
+        No lessons generated yet.
       </p>
     );
   }
@@ -183,9 +77,8 @@ export default function LessonsTable({ initialLessons }: LessonsTableProps) {
 
       {/* Collapsible Section */}
       <div
-        className={`transition-all duration-500 ease-in-out overflow-hidden ${
-          isOpen ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
-        }`}
+        className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
+          }`}
       >
         {/* Desktop Table */}
         <div className="hidden md:block overflow-x-auto rounded-xl border border-indigo-100 mt-2">
@@ -204,11 +97,10 @@ export default function LessonsTable({ initialLessons }: LessonsTableProps) {
               {lessons.map((lesson, idx) => (
                 <tr
                   key={lesson.id}
-                  className={`transition ${
-                    idx % 2 === 0
-                      ? "bg-white hover:bg-indigo-50"
-                      : "bg-indigo-50/50 hover:bg-indigo-100"
-                  }`}
+                  className={`transition ${idx % 2 === 0
+                    ? "bg-white hover:bg-indigo-50"
+                    : "bg-indigo-50/50 hover:bg-indigo-100"
+                    }`}
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <Link
@@ -218,19 +110,28 @@ export default function LessonsTable({ initialLessons }: LessonsTableProps) {
                       {lesson.outline}
                     </Link>
                   </td>
+
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
-                      className={`px-3 py-1 inline-flex text-xs font-semibold rounded-full ${
-                        lesson.status === "generated"
-                          ? "bg-green-100 text-green-700 border border-green-200"
-                          : "bg-yellow-100 text-yellow-700 border border-yellow-200 animate-pulse"
-                      }`}
+                      className={`flex items-center gap-2 px-3 py-1 inline-flex text-xs font-semibold rounded-full ${lesson.status === "generated"
+                        ? "bg-green-100 text-green-700 border border-green-200"
+                        : "bg-yellow-100 text-yellow-700 border border-yellow-200 animate-pulse"
+                        }`}
                     >
-                      {lesson.status === "generated"
-                        ? "✅ Generated"
-                        : "⏳ Generating..."}
+                      {lesson.status === "generated" ? (
+                        <>
+                          <CheckCircle size={14} className="text-green-600" />
+                          Generated
+                        </>
+                      ) : (
+                        <>
+                          <Loader2 size={14} className="text-yellow-600 animate-spin" />
+                          Generating...
+                        </>
+                      )}
                     </span>
                   </td>
+
                 </tr>
               ))}
             </tbody>
@@ -250,17 +151,26 @@ export default function LessonsTable({ initialLessons }: LessonsTableProps) {
               >
                 {lesson.outline}
               </Link>
+
               <span
-                className={`px-3 py-1 inline-flex text-xs font-semibold rounded-full ${
-                  lesson.status === "generated"
+                className={`flex items-center gap-2 px-3 py-1 inline-flex text-xs font-semibold rounded-full ${lesson.status === "generated"
                     ? "bg-green-100 text-green-700 border border-green-200"
                     : "bg-yellow-100 text-yellow-700 border border-yellow-200 animate-pulse"
-                }`}
+                  }`}
               >
-                {lesson.status === "generated"
-                  ? "✅ Generated"
-                  : "⏳ Generating..."}
+                {lesson.status === "generated" ? (
+                  <>
+                    <CheckCircle size={14} className="text-green-600" />
+                    Generated
+                  </>
+                ) : (
+                  <>
+                    <Loader2 size={14} className="text-yellow-600 animate-spin" />
+                    Generating...
+                  </>
+                )}
               </span>
+
             </div>
           ))}
         </div>
