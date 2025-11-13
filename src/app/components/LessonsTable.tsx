@@ -15,6 +15,13 @@ export default function LessonsTable({ initialLessons }: LessonsTableProps) {
   const [isOpen, setIsOpen] = useState(true);
   const supabase = createClient();
 
+
+    function toSentenceCase(text: string) {
+    if (!text) return "";
+    const lower = text.toLowerCase();
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
+  }
+
   useEffect(() => {
     const channel = supabase
       .channel("lessons-feed")
@@ -107,7 +114,9 @@ export default function LessonsTable({ initialLessons }: LessonsTableProps) {
                       href={`/lessons/${lesson.id}`}
                       className="text-indigo-600 hover:text-indigo-800 font-medium hover:underline"
                     >
-                      {lesson.outline}
+                      {/* {lesson.outline} */}
+                                  {toSentenceCase(lesson.outline || '')}
+
                     </Link>
                   </td>
 
