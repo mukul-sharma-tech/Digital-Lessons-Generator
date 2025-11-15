@@ -62,12 +62,12 @@ LangSmith provides trace logs for every AI run.
 3. Click **Share** → copy public link
 
 #### Example Traces:
-- **Successful Run:**  
-  _[PASTE YOUR PUBLIC LANGSMITH URL]_
-
-- **Failed Run:**  
-  _[PASTE YOUR PUBLIC LANGSMITH URL]_
-
+- **Successful Run:**
+  https://smith.langchain.com/public/27889cf3-6b5b-43ec-a9d8-c81cfcd66f22/r
+  https://smith.langchain.com/public/449fb9d0-d9f6-4256-8f81-1014de6e88b3/r
+  https://smith.langchain.com/public/82fcbb6c-c3f1-4f87-b86c-ea84aed3dca5/r
+  https://smith.langchain.com/public/a6e08744-c64a-4d84-9cc2-f6701af866d9/r
+  https://smith.langchain.com/public/6ab63cca-9a2a-49aa-99b0-97819d882b04/r  
 ---
 
 ## ⚙️ Architecture: Step-by-Step Flow
