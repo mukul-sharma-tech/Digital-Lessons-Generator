@@ -195,23 +195,8 @@ LangSmith provides comprehensive trace logs for every AI generation, enabling fu
 
 ## ⚙️ Architecture: Step-by-Step Flow
 
-```mermaid
-graph TD
-    A[User Enters Topic] --> B[API: /api/generate]
-    B --> C[Create DB Row: generating]
-    C --> D[Send Inngest Event]
-    D --> E[Realtime Update: UI Shows Generating]
-    E --> F[Inngest Processes Job]
-    F --> G[Call Gemini AI]
-    G --> H[Validate TSX]
-    H --> I{Valid?}
-    I -->|Yes| J[Update DB: generated]
-    I -->|No| K[Retry up to 3x]
-    K --> G
-    J --> L[Realtime Update: UI Shows Lesson]
-    L --> M[User Views Lesson]
-    M --> N[Optional: 3D Teacher]
-```
+<img width="1888" height="5740" alt="image" src="https://github.com/user-attachments/assets/42f77e20-9f4f-4a37-9988-387fdccb989e" />
+
 
 ### 📋 Detailed Flow
 
