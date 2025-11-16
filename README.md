@@ -1,5 +1,3 @@
-<img width="1888" height="5740" alt="image" src="https://github.com/user-attachments/assets/2b28456a-e927-47d1-a6e0-b3d9b2f06662" /><div align="center">
-
 # 🧠 Digital Lessons Generator
 
 **AI-Powered Interactive Learning Platform**
@@ -194,9 +192,23 @@ LangSmith provides comprehensive trace logs for every AI generation, enabling fu
 ---
 
 ## ⚙️ Architecture: Step-by-Step Flow
-
-<img width="1888" height="5740" alt="image" src="[https://github.com/user-attachments/assets/42f77e20-9f4f-4a37-9988-387fdccb989e](https://viewer.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&dark=1#R%3Cmxfile%3E%3Cdiagram%20name%3D%22Page-1%22%20id%3D%22lvuZnjoB7CfYIs7jAeee%22%3E5Zrbcps6FIafhst2kMTxMkmT1J3uPZk4SZtLAophihEj5Nju01cywgYvnLBn2xTGN8Qsi4O%2B%2F9dhLccgV%2FPVLQ%2Fy%2BB8W0dTAZrQyyBcDY0Q8X%2F5RkXUZ%2BYRd3ypDM55EutkuME1%2BUx00dXSRRLRoNBSMpSLJm8GQZRkNRSMWcM6WzWavLG0%2BNQ9mFASmYZDC6I8kEnEZ9bC7i3%2BlySyunowc3eV5UDXWPSniIGLLWohcG%2BSKMybKT%2FPVFU0VvopLed3NgW%2B3L8ZpJrpc8Lp8uZxYizlKikdsfyu%2Bi2fxSd%2FlLUgXusOPBeUycp0Jygv54YHlSah7INYVlmWcCDrNg1CdL6X4BrksBGe%2FtpRk%2Fy5fWSa0pMiT5%2FphlAu6OtgLtGUjbUXZnAq%2Blk2qC1yvvEQ7ynIqpyx38iBPmyyuSWPrWKAdMdveewdNftDc%2FgNDDBhe3E0McmEoQW6CPJHHGc0oDwQdEkjcBOkiC4L0nR5BEgDyitMNNPOL7LJ5r4aPwqppJtlsQDwtq8nTQx7giW3SI08L8JzSLJKRSZbNaCHUMH9T3RsOxH1T%2Bhi3mNLuEaININ7TQK4%2Fc2XLxzxS%2FtyY8nEiD9NYrTjYvB2kQ80GXNvEDnSoY0K41Zx7dLgOgLuz5h1nIS0KqnB%2BYy8D4uiQJkdkw5kToz6XIBfOnMHmqls6TzK5AJkXkwEB9PeMiG04VSIH9QjQAwCfgjSJysXnYfpzOPD85v7HJk7LDGn5PbLz29kZ5AZQ4zGbvyyKVlZtRE9hPmw3AVoOnAXbVpgqdnR%2B1Qa2vgnPo%2B2%2Bp77jodFwjGihJkeHkJZZsE8jIpjN3Ot3XuSGShzlgayGg5CY%2FscM%2B50IEcxmuux3vsuVmmXDIYv3VhiXuNCcvW51EMxudKr9lNBBMrT3JkrPsaE5vV4HOMxo1MF8oEEYK5ZDQWftofOrqlBjbux1XMM8BuAKF%2FyNqpugDaeAiwtVQZOBjGWyzaXMHqvIS8rCXyq0SsRPeW5%2BtvXZs76BRMXXta%2FUqfrOlCecLbJo8yjzoAA0ApW5Pfzy5dmCh%2FS9bpftZF9mVLzTDrfLyWkqk7i35nu0abO5VLIJ1rUGOUsyUQDptvf%2FH2rCxOkc1MQd1SQjUxOmb%2BegJumopjUyNWEueQ5qWh3VtEemJsxuz0FNu6OazrjUxDDVPgc1nY5quiNTE%2Bb7R1ZzI8Tg5HQ7yumdVk595zsVMGo%2F4exVx4lOvXfil7c8rhVg2eIcBrbX0Qn%2ByAY2rJU80%2BLIgkpbDlBRv6OiyDytpAcGt71XV7P9PgY3LPv8y47qBlSzgvnZs5puwCOww4F61GntgH3yN%2Bxw%2BlJWfbI3m2bwrboZUK%2FFrK7VrBPv49rNYJnOu2b4%2BIJ%2BdgrnWTqrfmT8eCYZWSkUn2fxrPqd7mM9R1YMxedZPkNdq6FoMOVQebr77%2BWy%2Be6%2FwMn1Hw%3D%3D%3C%2Fdiagram%3E%3C%2Fmxfile%3E)" />
-
+```mermaid
+graph TD
+    A[User Enters Topic] --> B[API: /api/generate]
+    B --> C[Create DB Row: generating]
+    C --> D[Send Inngest Event]
+    D --> E[Realtime Update: UI Shows Generating]
+    E --> F[Inngest Processes Job]
+    F --> G[Call Gemini AI]
+    G --> H[Validate TSX]
+    H --> I{Valid?}
+    I -->|Yes| J[Update DB: generated]
+    I -->|No| K[Retry up to 3x]
+    K --> G
+    J --> L[Realtime Update: UI Shows Lesson]
+    L --> M[User Views Lesson]
+    M --> N[3D Teacher]
+```
 
 ### 📋 Detailed Flow
 
